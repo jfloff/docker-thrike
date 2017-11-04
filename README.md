@@ -1,4 +1,4 @@
-# Thrike (*T*omcat, T*hri*ft, Jd*k* and Gradl*e*)
+# Thrike (*T*omcat, T*hri*ft, JD*K* and Gradl*e*)
 
 [![Docker Stars](https://img.shields.io/docker/stars/jfloff/tomcat-jdk-gradle-thrift.svg)][hub]
 [![Docker Pulls](https://img.shields.io/docker/pulls/jfloff/tomcat-jdk-gradle-thrift.svg)][hub]
