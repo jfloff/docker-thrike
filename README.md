@@ -1,9 +1,9 @@
 # Thrike (*T*omcat, T*hri*ft, JD*K* and Gradl*e*)
 
-[![Docker Stars](https://img.shields.io/docker/stars/jfloff/tomcat-jdk-gradle-thrift.svg)][hub]
-[![Docker Pulls](https://img.shields.io/docker/pulls/jfloff/tomcat-jdk-gradle-thrift.svg)][hub]
+[![Docker Stars](https://img.shields.io/docker/stars/jfloff/https://github.com/jfloff/docker-thrike.svg)][hub]
+[![Docker Pulls](https://img.shields.io/docker/pulls/jfloff/docker-thrike.svg)][hub]
 
-[hub]: https://hub.docker.com/r/jfloff/tomcat-jdk-gradle-thrift/
+[hub]: https://hub.docker.com/r/jfloff/docker-thrike/
 
 Yikes, what an ugly name! Well, this is a docker image for projects that rely on Tomcat and Thrift (for me it was a [microservice-based Spring Boot with Thrift](https://github.com/ExampleDriven/spring-boot-thrift-example)) and also need JDK and Gradle. Is this odly specific, yes. But its easier to maintain this way. This has a mashup of several other images, namely:
 - [Tomcat](https://github.com/docker-library/tomcat/blob/master/8.5/jre8/Dockerfile)
@@ -13,7 +13,7 @@ Yikes, what an ugly name! Well, this is a docker image for projects that rely on
 
 
 ## Supported tags
-* **`8.5`,`latest`** *([Dockerfile](https://github.com/jfloff/thrike/blob/master/8.5/Dockerfile))*
+* **`8.5`,`latest`** *([Dockerfile](https://github.com/jfloff/docker-thrike/blob/master/8.5/Dockerfile))*
 
 Images are tagged with the JDK version numbers. If you need any other version, please **feel free to open a PR**.
 
