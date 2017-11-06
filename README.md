@@ -1,9 +1,9 @@
 # Thrike (*T*omcat, T*hri*ft, JD*K* and Gradl*e*)
 
-[![Docker Stars](https://img.shields.io/docker/stars/jfloff/https://github.com/jfloff/docker-thrike.svg)][hub]
-[![Docker Pulls](https://img.shields.io/docker/pulls/jfloff/docker-thrike.svg)][hub]
+[![Docker Stars](https://img.shields.io/docker/stars/jfloff/thrike.svg)][hub]
+[![Docker Pulls](https://img.shields.io/docker/pulls/jfloff/thrike.svg)][hub]
 
-[hub]: https://hub.docker.com/r/jfloff/docker-thrike/
+[hub]: https://hub.docker.com/r/jfloff/thrike/
 
 Yikes, what an ugly name! Well, this is a docker image for projects that rely on Tomcat and Thrift (for me it was a [microservice-based Spring Boot with Thrift](https://github.com/ExampleDriven/spring-boot-thrift-example)) and also need JDK and Gradle. Is this odly specific, yes. But its easier to maintain this way. This has a mashup of several other images, namely:
 - [Tomcat](https://github.com/docker-library/tomcat/blob/master/8.5/jre8/Dockerfile)
