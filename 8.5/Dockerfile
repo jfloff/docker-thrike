@@ -28,6 +28,7 @@ RUN set -ex ;\
 		# so we are able to do thrift endpoint tests
 		openssl \
 		curl \
+		nmap \
 		;\
 	# install glibc using: https://github.com/sgerrand/alpine-pkg-glibc
 	wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://raw.githubusercontent.com/sgerrand/alpine-pkg-glibc/master/sgerrand.rsa.pub ;\
