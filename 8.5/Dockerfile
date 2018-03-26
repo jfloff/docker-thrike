@@ -1,4 +1,4 @@
-FROM tomcat:8-jre8-alpine
+FROM tomcat:8.5-jre8-alpine
 
 LABEL maintainer="jfloff@inesc-id.pt"
 LABEL maintainer="duartercorreia@tecnico.ulisboa.pt"
@@ -10,14 +10,14 @@ LABEL maintainer="duartercorreia@tecnico.ulisboa.pt"
 
 ENV \
 	# VERSIONS
-	GRADLE_VERSION=4.0.1 \
-	APK_GLIBC_VERSION=2.26-r0 \
-	APACHE_THRIFT_VERSION=0.9.3 \
+	GRADLE_VERSION=4.6 \
+	APK_GLIBC_VERSION=2.27-r0 \
+	APACHE_THRIFT_VERSION=0.11.0 \
+	PROTOBUF_VERSION=3.5.1 \
+	GRPC_JAVA_VERSION=1.10.1 \
 	# HOMES
 	JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk \
 	GRADLE_HOME=/usr/local/lib/gradle
-
-ARG GRADLE_DOWNLOAD_SHA256=d717e46200d1359893f891dab047fdab98784143ac76861b53c50dbd03b44fd4
 
 RUN set -ex ;\
   	apk add --no-cache \
@@ -51,14 +51,15 @@ RUN set -ex ;\
 		gcc \
 		g++ \
 		make \
-		glibc-${APK_GLIBC_VERSION}.apk
+		glibc-${APK_GLIBC_VERSION}.apk \
+		;\
+	rm -rf /var/cache/apk/*
 
 ###################
 # Install Gradle
 #
 RUN set -ex ;\
 	wget -O gradle.zip "https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip" ;\
-	echo "${GRADLE_DOWNLOAD_SHA256} *gradle.zip" | sha256sum -c - ;\
 	unzip gradle.zip ;\
 	rm gradle.zip ;\
 	mv "gradle-${GRADLE_VERSION}" "${GRADLE_HOME}" ;\
@@ -77,11 +78,33 @@ RUN set -ex ;\
 	cd thrift-${APACHE_THRIFT_VERSION}/ ;\
 	./configure ;\
 	make && make install ;\
-	cd .. && rm -rf thrift-${APACHE_THRIFT_VERSION} ;\
+	cd .. && rm -rf thrift-${APACHE_THRIFT_VERSION}
+
+###################
+# Install GRPC JAVA
+# Only works for 3.0.0 and up
+#
+RUN set -ex ;\
+	# Install PROTOBUF
+	# Only works for 3.0.0 and up
+	curl -#sL "https://github.com/google/protobuf/releases/download/v$PROTOBUF_VERSION/protobuf-java-$PROTOBUF_VERSION.tar.gz" | tar -xz -C /usr/local ;\
+    cd /usr/local/protobuf-$PROTOBUF_VERSION && ./configure --prefix=/usr ;\
+    make && make install ;\
+    rm -rf /usr/local/protobuf-$PROTOBUF_VERSION ;\
+	# gRPC
+    curl -#sL "https://github.com/grpc/grpc-java/archive/v$GRPC_JAVA_VERSION.tar.gz" | tar -xz -C /usr/local ;\
+    cd /usr/local/grpc-java-$GRPC_JAVA_VERSION/compiler && ../gradlew java_pluginExecutable ;\
+    cp ./build/exe/java_plugin/protoc-gen-grpc-java /usr/local/bin/protoc-gen-grpc-java ;\
+    rm -rf /usr/local/grpc-java-$GRPC_JAVA_VERSION
 
 ###################
 # Cleanup
 #
-	apk del .build-deps
+RUN	set -ex ;\
+    apk del --no-cache --purge .build-deps ;\
+    rm -rf /var/cache/apk/*
 
+###################
+# Startup
+#
 CMD catalina.sh run

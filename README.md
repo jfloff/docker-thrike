@@ -1,15 +1,16 @@
-# Thrike (*T*omcat, T*hri*ft, JD*K* and Gradl*e*)
+# Thrike
 
 [![Docker Stars](https://img.shields.io/docker/stars/jfloff/thrike.svg)][hub]
 [![Docker Pulls](https://img.shields.io/docker/pulls/jfloff/thrike.svg)][hub]
 
 [hub]: https://hub.docker.com/r/jfloff/thrike/
 
-Yikes, what an ugly name! Well, this is a docker image for projects that rely on Tomcat and Thrift (for me it was a [microservice-based Spring Boot with Thrift](https://github.com/ExampleDriven/spring-boot-thrift-example)) and also need JDK and Gradle. Is this odly specific, yes. But its easier to maintain this way. This has a mashup of several other images, namely:
-- [Tomcat](https://github.com/docker-library/tomcat/blob/master/8.5/jre8/Dockerfile)
-- [Thrift](https://github.com/ahawkins/docker-thrift/blob/master/0.10/Dockerfile)
-- [JDK](https://github.com/docker-library/openjdk/blob/master/8-jdk/alpine/Dockerfile)
-- [Gradle](https://github.com/keeganwitt/docker-gradle/blob/master/jdk8-alpine/Dockerfile)
+This is a docker image for projects that use **Tomcat for building Microservices**. We also added standard RPC frameworks for easier development. Here is a list of things installed:
+- [Tomcat](http://tomcat.apache.org/) ([based on](https://github.com/docker-library/tomcat/blob/master/8.5/jre8/Dockerfile))
+- [Thrift](https://thrift.apache.org/) ([based on](https://github.com/ahawkins/docker-thrift/blob/master/0.10/Dockerfile))
+- [gRPC](https://grpc.io/) ([based on](https://github.com/jfloff/grpc-java-sbt/blob/master/Dockerfile))
+- [Gradle](http://openjdk.java.net/) ([based on](https://github.com/keeganwitt/docker-gradle/blob/master/jdk8-alpine/Dockerfile))
+- [OpenJDK](http://openjdk.java.net/) ([based on](https://github.com/docker-library/openjdk/blob/master/8-jdk/alpine/Dockerfile))
 
 
 ## Supported tags
