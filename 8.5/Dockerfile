@@ -17,7 +17,9 @@ ENV \
 	GRPC_JAVA_VERSION=1.10.1 \
 	# HOMES
 	JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk \
-	GRADLE_HOME=/usr/local/lib/gradle
+	GRADLE_HOME=/usr/local/lib/gradle \
+	PROTOC_HOME=/usr/bin/protoc \
+	GRPC_JAVA_PLUGIN_HOME=/usr/local/bin/protoc-gen-grpc-java
 
 RUN set -ex ;\
   	apk add --no-cache \
