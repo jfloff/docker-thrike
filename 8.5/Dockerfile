@@ -38,10 +38,8 @@ RUN set -ex ;\
 	# add build deps to be removed after
 	apk add --no-cache --virtual .build-deps \
 		unzip \
-		# gradle
 		libstdc++ \
 		ca-certificates \
-		# thrift
 		flex \
 		automake \
 		autoconf \
@@ -83,7 +81,7 @@ RUN set -ex ;\
 	cd .. && rm -rf thrift-${APACHE_THRIFT_VERSION}
 
 ###################
-# Install GRPC JAVA
+# Install PROTOBUF
 # Only works for 3.0.0 and up
 #
 RUN set -ex ;\
@@ -92,8 +90,11 @@ RUN set -ex ;\
 	curl -#sL "https://github.com/google/protobuf/releases/download/v$PROTOBUF_VERSION/protobuf-java-$PROTOBUF_VERSION.tar.gz" | tar -xz -C /usr/local ;\
     cd /usr/local/protobuf-$PROTOBUF_VERSION && ./configure --prefix=/usr ;\
     make && make install ;\
-    rm -rf /usr/local/protobuf-$PROTOBUF_VERSION ;\
-	# gRPC
+    rm -rf /usr/local/protobuf-$PROTOBUF_VERSION
+
+###################
+# Install GRPC JAVA
+RUN set -ex ;\
     curl -#sL "https://github.com/grpc/grpc-java/archive/v$GRPC_JAVA_VERSION.tar.gz" | tar -xz -C /usr/local ;\
     cd /usr/local/grpc-java-$GRPC_JAVA_VERSION/compiler && ../gradlew java_pluginExecutable ;\
     cp ./build/exe/java_plugin/protoc-gen-grpc-java /usr/local/bin/protoc-gen-grpc-java ;\
@@ -109,4 +110,6 @@ RUN	set -ex ;\
 ###################
 # Startup
 #
+# standard tomcat port
+EXPOSE 8080
 CMD catalina.sh run
