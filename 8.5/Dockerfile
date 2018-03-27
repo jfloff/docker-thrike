@@ -111,5 +111,5 @@ RUN	set -ex ;\
 # Startup
 #
 # standard tomcat port
-EXPOSE 8080
+EXPOSE 8080 6565
 CMD catalina.sh run
