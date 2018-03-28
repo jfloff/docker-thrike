@@ -3,11 +3,6 @@ FROM tomcat:8.5-jre8-alpine
 LABEL maintainer="jfloff@inesc-id.pt"
 LABEL maintainer="duartercorreia@tecnico.ulisboa.pt"
 
-###################
-# JDK FROM: https://github.com/docker-library/openjdk/blob/master/8-jdk/alpine/Dockerfile
-# GRADLE FROM: https://github.com/keeganwitt/docker-gradle/blob/master/jdk8-alpine/Dockerfile
-#
-
 ENV \
 	# VERSIONS
 	GRADLE_VERSION=4.6 \
@@ -27,7 +22,7 @@ RUN set -ex ;\
 		openjdk8="$JAVA_ALPINE_VERSION" \
 		apache-ant \
 		bash \
-		# so we are able to do thrift endpoint tests
+		# so we are able to do rpc endpoint tests
 		openssl \
 		curl \
 		nmap \
@@ -57,6 +52,7 @@ RUN set -ex ;\
 
 ###################
 # Install Gradle
+# Based on: https://github.com/keeganwitt/docker-gradle/blob/master/jdk8-alpine/Dockerfile
 #
 RUN set -ex ;\
 	wget -O gradle.zip "https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip" ;\
@@ -70,13 +66,14 @@ RUN set -ex ;\
 
 ###################
 # Install Apache Thrift
+# Based on: https://github.com/ahawkins/docker-thrift/blob/master/0.11/Dockerfile
 #
 RUN set -ex ;\
 	wget http://www-eu.apache.org/dist/thrift/${APACHE_THRIFT_VERSION}/thrift-${APACHE_THRIFT_VERSION}.tar.gz ;\
 	tar -xvf thrift-${APACHE_THRIFT_VERSION}.tar.gz ;\
 	rm thrift-${APACHE_THRIFT_VERSION}.tar.gz ;\
 	cd thrift-${APACHE_THRIFT_VERSION}/ ;\
-	./configure ;\
+	./configure --without-python --without-cpp ;\
 	make && make install ;\
 	cd .. && rm -rf thrift-${APACHE_THRIFT_VERSION}
 
@@ -101,9 +98,12 @@ RUN set -ex ;\
     rm -rf /usr/local/grpc-java-$GRPC_JAVA_VERSION
 
 ###################
-# Cleanup
+# Add extras and cleanup
 #
 RUN	set -ex ;\
+	# add wait-for script to order docker-compose startup
+	wget https://raw.githubusercontent.com/eficode/wait-for/master/wait-for -O /usr/bin/wait-for && chmod +x /usr/bin/wait-for ;\
+	# remove pending deps
     apk del --no-cache --purge .build-deps ;\
     rm -rf /var/cache/apk/*
 
