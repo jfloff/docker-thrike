@@ -26,6 +26,12 @@ RUN set -ex ;\
 		openssl \
 		curl \
 		nmap \
+		# for debugging
+		vim \
+		# to get fonts in awt to work
+		# https://github.com/docker-library/openjdk/issues/73
+		fontconfig \
+		ttf-dejavu \
 		;\
 	# install glibc using: https://github.com/sgerrand/alpine-pkg-glibc
 	wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://raw.githubusercontent.com/sgerrand/alpine-pkg-glibc/master/sgerrand.rsa.pub ;\
@@ -103,6 +109,10 @@ RUN set -ex ;\
 RUN	set -ex ;\
 	# add wait-for script to order docker-compose startup
 	wget https://raw.githubusercontent.com/eficode/wait-for/master/wait-for -O /usr/bin/wait-for && chmod +x /usr/bin/wait-for ;\
+	# allow all users to access manager in tomcat
+	# WARNING THIS SETTING SHOULD BE CHANGED FOR PRODUCTION
+	sed -i 's/allow="127\\\.\\d+\\\.\\d+\\\.\\d+|::1|0:0:0:0:0:0:0:1"/allow="^\.*$"/g' $CATALINA_HOME/webapps/manager/META-INF/context.xml ;\
+	sed -i '/<\/tomcat-users>/i<role rolename="manager-gui"/><user username="admin" password="admin" roles="manager-gui"\/>' $CATALINA_HOME/conf/tomcat-users.xml ;\
 	# remove pending deps
     apk del --no-cache --purge .build-deps ;\
     rm -rf /var/cache/apk/*
