@@ -6,7 +6,7 @@ LABEL maintainer="duartercorreia@tecnico.ulisboa.pt"
 ENV \
 	# VERSIONS
 	GRADLE_VERSION=4.6 \
-	APK_GLIBC_VERSION=2.27-r0 \
+	APK_GLIBC_VERSION=2.28-r0 \
 	APACHE_THRIFT_VERSION=0.11.0 \
 	PROTOBUF_VERSION=3.5.1 \
 	GRPC_JAVA_VERSION=1.10.0 \
@@ -18,6 +18,8 @@ ENV \
 
 RUN set -ex ;\
   	apk add --no-cache \
+	  	# for glibc
+		wget \
 		# jdk
 		openjdk8="$JAVA_ALPINE_VERSION" \
 		apache-ant \
@@ -34,7 +36,7 @@ RUN set -ex ;\
 		ttf-dejavu \
 		;\
 	# install glibc using: https://github.com/sgerrand/alpine-pkg-glibc
-	wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://raw.githubusercontent.com/sgerrand/alpine-pkg-glibc/master/sgerrand.rsa.pub ;\
+	wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub ;\
 	wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${APK_GLIBC_VERSION}/glibc-${APK_GLIBC_VERSION}.apk ;\
 	# add build deps to be removed after
 	apk add --no-cache --virtual .build-deps \
@@ -110,7 +112,7 @@ RUN	set -ex ;\
 	# add wait-for script to order docker-compose startup
 	wget https://raw.githubusercontent.com/eficode/wait-for/master/wait-for -O /usr/bin/wait-for && chmod +x /usr/bin/wait-for ;\
 	# allow all users to access manager in tomcat
-	# WARNING THIS SETTING SHOULD BE CHANGED FOR PRODUCTION
+	# WARNING: THIS SETTING SHOULD BE CHANGED FOR PRODUCTION
 	sed -i 's/allow="127\\\.\\d+\\\.\\d+\\\.\\d+|::1|0:0:0:0:0:0:0:1"/allow="^\.*$"/g' $CATALINA_HOME/webapps/manager/META-INF/context.xml ;\
 	sed -i '/<\/tomcat-users>/i<role rolename="manager-gui"/><user username="admin" password="admin" roles="manager-gui"\/>' $CATALINA_HOME/conf/tomcat-users.xml ;\
 	# remove pending deps
