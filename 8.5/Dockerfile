@@ -30,6 +30,7 @@ RUN set -ex ;\
 		nmap \
 		# for debugging
 		vim \
+		iperf3 \
 		# to get fonts in awt to work
 		# https://github.com/docker-library/openjdk/issues/73
 		fontconfig \
