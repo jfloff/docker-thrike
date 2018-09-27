@@ -14,7 +14,12 @@ ENV \
 	JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk \
 	GRADLE_HOME=/usr/local/lib/gradle \
 	PROTOC_HOME=/usr/bin/protoc \
-	GRPC_JAVA_PLUGIN_HOME=/usr/local/bin/protoc-gen-grpc-java
+	GRPC_JAVA_PLUGIN_HOME=/usr/local/bin/protoc-gen-grpc-java \
+	# OTHER
+	# This is used to speed up Tomcat startup, this should probably
+	# be changed if you plan to use this in production
+	# https://wiki.apache.org/tomcat/HowTo/FasterStartUp
+	JAVA_OPTS="-Djava.security.egd=file:/dev/./urandom"
 
 RUN set -ex ;\
   	apk add --no-cache \
