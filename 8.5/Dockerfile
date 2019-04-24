@@ -6,7 +6,7 @@ LABEL maintainer="duartercorreia@tecnico.ulisboa.pt"
 ENV \
 	# VERSIONS
 	GRADLE_VERSION=4.10.3 \
-	APK_GLIBC_VERSION=2.28-r0 \
+	APK_GLIBC_VERSION=2.29-r0 \
 	APACHE_THRIFT_VERSION=0.11.0 \
 	PROTOBUF_VERSION=3.6.1 \
 	GRPC_JAVA_VERSION=1.17.1 \
@@ -57,7 +57,7 @@ RUN set -ex ;\
 		libtool \
 		pkgconf \
 		bison \
-		libssl1.0 \
+		libssl1.1 \
 		libevent-dev \
 		gcc \
 		g++ \
