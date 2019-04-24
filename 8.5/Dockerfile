@@ -33,6 +33,8 @@ RUN set -ex ;\
 		openssl \
 		curl \
 		nmap \
+		# for wait-for script to work
+		netcat-openbsd \
 		# for debugging
 		vim \
 		iperf3 \
